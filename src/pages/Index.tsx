@@ -4,9 +4,57 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
+
+interface CartItem {
+  id: string;
+  value: number;
+  quantity: number;
+}
 
 const Index = () => {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const addToCart = (value: number) => {
+    setCartItems(prev => {
+      const existingItem = prev.find(item => item.value === value);
+      if (existingItem) {
+        return prev.map(item => 
+          item.value === value 
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prev, { id: Date.now().toString(), value, quantity: 1 }];
+    });
+  };
+
+  const updateQuantity = (id: string, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(id);
+      return;
+    }
+    setCartItems(prev => 
+      prev.map(item => 
+        item.id === id ? { ...item, quantity } : item
+      )
+    );
+  };
+
+  const removeFromCart = (id: string) => {
+    setCartItems(prev => prev.filter(item => item.id !== id));
+  };
+
+  const getTotalPrice = () => {
+    return cartItems.reduce((sum, item) => sum + (item.value * item.quantity), 0);
+  };
+
+  const getTotalItems = () => {
+    return cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  };
 
   const giftCardAmounts = [
     { value: 25, popular: false },
@@ -53,10 +101,97 @@ const Index = () => {
               <a href="#catalog" className="text-gray-600 hover:text-black transition-colors">Каталог</a>
               <a href="#faq" className="text-gray-600 hover:text-black transition-colors">FAQ</a>
               <a href="#contacts" className="text-gray-600 hover:text-black transition-colors">Контакты</a>
-              <Button className="bg-apple-blue hover:bg-blue-600 text-white">
-                <Icon name="ShoppingCart" size={18} className="mr-2" />
-                Корзина
-              </Button>
+              <Dialog open={isCartOpen} onOpenChange={setIsCartOpen}>
+                <DialogTrigger asChild>
+                  <Button className="bg-apple-blue hover:bg-blue-600 text-white relative">
+                    <Icon name="ShoppingCart" size={18} className="mr-2" />
+                    Корзина
+                    {getTotalItems() > 0 && (
+                      <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center p-0">
+                        {getTotalItems()}
+                      </Badge>
+                    )}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2">
+                      <Icon name="ShoppingCart" size={20} />
+                      Корзина ({getTotalItems()})
+                    </DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                    {cartItems.length === 0 ? (
+                      <div className="text-center py-8 text-gray-500">
+                        <Icon name="ShoppingCart" size={48} className="mx-auto mb-4 opacity-50" />
+                        <p>Корзина пуста</p>
+                        <p className="text-sm">Добавьте подарочные карты из каталога</p>
+                      </div>
+                    ) : (
+                      <>
+                        {cartItems.map((item) => (
+                          <div key={item.id} className="flex items-center justify-between p-4 border rounded-lg">
+                            <div className="flex items-center gap-4">
+                              <div className="w-12 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded flex items-center justify-center text-white text-xs font-bold">
+                                $
+                              </div>
+                              <div>
+                                <p className="font-medium">${item.value} USD</p>
+                                <p className="text-sm text-gray-500">Apple Gift Card</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Button 
+                                size="icon" 
+                                variant="outline" 
+                                className="h-8 w-8"
+                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              >
+                                <Icon name="Minus" size={14} />
+                              </Button>
+                              <span className="w-8 text-center">{item.quantity}</span>
+                              <Button 
+                                size="icon" 
+                                variant="outline" 
+                                className="h-8 w-8"
+                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              >
+                                <Icon name="Plus" size={14} />
+                              </Button>
+                              <Button 
+                                size="icon" 
+                                variant="ghost" 
+                                className="h-8 w-8 text-red-500 hover:text-red-700"
+                                onClick={() => removeFromCart(item.id)}
+                              >
+                                <Icon name="Trash2" size={14} />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                        <Separator />
+                        <div className="space-y-4">
+                          <div className="flex justify-between items-center font-semibold text-lg">
+                            <span>Итого:</span>
+                            <span>${getTotalPrice()}</span>
+                          </div>
+                          <Button className="w-full bg-apple-blue hover:bg-blue-600 text-white" size="lg">
+                            <Icon name="CreditCard" size={20} className="mr-2" />
+                            Оформить заказ
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="w-full" 
+                            onClick={() => setIsCartOpen(false)}
+                          >
+                            Продолжить покупки
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
             <Button variant="ghost" size="icon" className="md:hidden">
               <Icon name="Menu" size={24} />
@@ -176,17 +311,27 @@ const Index = () => {
                   <Button 
                     variant={selectedAmount === amount.value ? "default" : "outline"}
                     className="w-full"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCart(amount.value);
+                    }}
                   >
-                    Выбрать
+                    <Icon name="Plus" size={16} className="mr-2" />
+                    В корзину
                   </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
           <div className="text-center mt-8">
-            <Button size="lg" className="bg-apple-blue hover:bg-blue-600 text-white" disabled={!selectedAmount}>
-              <Icon name="CreditCard" size={20} className="mr-2" />
-              Перейти к оплате {selectedAmount && `($${selectedAmount})`}
+            <Button 
+              size="lg" 
+              className="bg-apple-blue hover:bg-blue-600 text-white" 
+              disabled={cartItems.length === 0}
+              onClick={() => setIsCartOpen(true)}
+            >
+              <Icon name="ShoppingCart" size={20} className="mr-2" />
+              Посмотреть корзину {cartItems.length > 0 && `(${getTotalItems()} шт.)`}
             </Button>
           </div>
         </div>
