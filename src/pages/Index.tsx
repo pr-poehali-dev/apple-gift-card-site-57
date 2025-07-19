@@ -137,7 +137,7 @@ const Index = () => {
                               </div>
                               <div>
                                 <p className="font-medium">${item.value} USD</p>
-                                <p className="text-sm text-gray-500">Apple Gift Card</p>
+                                <p className="text-sm text-gray-500">Поварочная карта</p>
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
@@ -207,10 +207,10 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="animate-fade-in">
               <h1 className="text-5xl md:text-6xl font-bold text-apple-darkGray mb-6">
-                Подарочные карты Apple
+                Поварочные карты
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Мгновенная доставка кода на email. Безопасно, быстро и удобно.
+                Лучшие рецепты и кулинарные секреты от профессиональных поваров. Мгновенный доступ к кулинарным мастер-классам.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button size="lg" className="bg-apple-blue hover:bg-blue-600 text-white">
@@ -218,25 +218,25 @@ const Index = () => {
                   <Icon name="ArrowRight" size={20} className="ml-2" />
                 </Button>
                 <Button size="lg" variant="outline">
-                  <Icon name="HelpCircle" size={20} className="mr-2" />
-                  Как это работает
+                  <Icon name="ChefHat" size={20} className="mr-2" />
+                  Как готовить
                 </Button>
               </div>
               <div className="flex items-center gap-6 mt-8">
                 <div className="flex items-center gap-2">
                   <Icon name="Zap" size={20} className="text-apple-blue" />
-                  <span className="text-sm text-gray-600">Моментальная доставка</span>
+                  <span className="text-sm text-gray-600">Мгновенный доступ</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Icon name="Shield" size={20} className="text-apple-blue" />
-                  <span className="text-sm text-gray-600">100% безопасно</span>
+                  <span className="text-sm text-gray-600">Проверенные рецепты</span>
                 </div>
               </div>
             </div>
             <div className="relative animate-scale-in">
               <img 
                 src="/img/7a822eab-10cf-4f9c-aaff-66eebb886d83.jpg" 
-                alt="Apple Gift Card"
+                alt="Поварочная карта"
                 className="w-full max-w-md mx-auto rounded-2xl shadow-2xl"
               />
               <div className="absolute -bottom-4 -right-4 bg-white rounded-xl p-4 shadow-lg animate-fade-in" style={{animationDelay: '0.3s'}}>
@@ -245,8 +245,8 @@ const Index = () => {
                     <Icon name="Check" size={24} className="text-green-600" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold">24/7 Поддержка</p>
-                    <p className="text-xs text-gray-500">Всегда на связи</p>
+                    <p className="text-sm font-semibold">Шеф-повар онлайн</p>
+                    <p className="text-xs text-gray-500">Всегда поможет</p>
                   </div>
                 </div>
               </div>
@@ -263,22 +263,22 @@ const Index = () => {
               <div className="w-16 h-16 bg-apple-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Icon name="Clock" size={32} className="text-apple-blue" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Быстрая доставка</h3>
-              <p className="text-gray-600">Код на email за 2 минуты после оплаты</p>
+              <h3 className="text-lg font-semibold mb-2">Мгновенный доступ</h3>
+              <p className="text-gray-600">Доступ к рецептам сразу после покупки</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-apple-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Icon name="Shield" size={32} className="text-apple-blue" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Гарантия безопасности</h3>
-              <p className="text-gray-600">Защищенные платежи и подлинные коды</p>
+              <h3 className="text-lg font-semibold mb-2">Качественные рецепты</h3>
+              <p className="text-gray-600">Только проверенные рецепты от шеф-поваров</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-apple-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Icon name="HeadphonesIcon" size={32} className="text-apple-blue" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Поддержка 24/7</h3>
-              <p className="text-gray-600">Помощь на каждом этапе покупки</p>
+              <h3 className="text-lg font-semibold mb-2">Кулинарная поддержка</h3>
+              <p className="text-gray-600">Помощь в освоении рецептов и техник</p>
             </div>
           </div>
         </div>
@@ -288,8 +288,8 @@ const Index = () => {
       <section id="catalog" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-apple-darkGray mb-4">Выберите номинал</h2>
-            <p className="text-xl text-gray-600">Подарочные карты на любой бюджет</p>
+            <h2 className="text-4xl font-bold text-apple-darkGray mb-4">Выберите карту</h2>
+            <p className="text-xl text-gray-600">Поварочные карты для разного уровня мастерства</p>
           </div>
           <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6">
             {giftCardAmounts.map((amount) => (
@@ -385,10 +385,10 @@ const Index = () => {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <Icon name="Gift" size={24} />
-                <span className="text-xl font-semibold">Apple Gift Cards</span>
+                <Icon name="ChefHat" size={24} />
+                <span className="text-xl font-semibold">Поварочные карты</span>
               </div>
-              <p className="text-gray-400">Официальный реселлер подарочных карт Apple</p>
+              <p className="text-gray-400">Лучшие кулинарные рецепты и мастер-классы</p>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Покупателям</h3>
